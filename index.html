@@ -3,160 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Apex Ltd | Executive Portal</title>
+    <title>Aprax Ltd | Executive Terminal</title>
     <style>
-        :root { --apex-blue: #001a38; --apex-gold: #f39c12; --success: #27ae60; --bg: #f4f7f9; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-        body { background: var(--bg); color: #333; overflow: hidden; }
+        :root { --navy: #001a38; --gold: #c5a059; --success: #2ecc71; --danger: #e74c3c; --bg: #0a0e14; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+        body { background: var(--bg); color: #e1e1e1; overflow: hidden; }
 
-        /* Views */
-        .view { display: none; height: 100vh; width: 100vw; flex-direction: column; }
-        .view.active { display: flex; }
+        /* Navigation */
+        header { background: var(--navy); padding: 15px; border-bottom: 1px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
+        .nav-tabs { display: flex; background: #111821; border-bottom: 1px solid #222; }
+        .tab { flex: 1; padding: 15px; text-align: center; font-size: 11px; color: #888; border-bottom: 2px solid transparent; text-transform: uppercase; }
+        .tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: bold; }
 
-        /* Auth */
-        .auth-screen { background: var(--apex-blue); justify-content: center; align-items: center; padding: 20px; }
-        .auth-card { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 350px; text-align: center; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
-        
-        /* Dashboard */
-        .header { background: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
-        .nav-tabs { display: flex; background: white; border-bottom: 1px solid #eee; }
-        .tab { flex: 1; text-align: center; padding: 15px; font-size: 13px; color: #666; border-bottom: 3px solid transparent; }
-        .tab.active { color: var(--apex-blue); border-bottom-color: var(--apex-gold); font-weight: bold; }
-        
-        .pane { display: none; padding: 15px; flex: 1; overflow-y: auto; }
+        /* Content */
+        .pane { display: none; padding: 20px; height: calc(100vh - 110px); overflow-y: auto; }
         .pane.active { display: block; }
 
-        /* Hero & Chart */
-        .hero { background: var(--apex-blue); color: white; padding: 25px; border-radius: 15px; margin-bottom: 15px; position: relative; }
-        #live-chart { width: 100%; height: 120px; margin-top: 10px; }
+        /* Cards & Buttons */
+        .hero-card { background: linear-gradient(135deg, #001a38 0%, #003366 100%); border: 1px solid var(--gold); padding: 25px; border-radius: 8px; margin-bottom: 20px; }
+        .asset-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222; font-size: 13px; }
+        .btn-gold { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 4px; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-outline { background: transparent; border: 1px solid white; color: white; padding: 12px; border-radius: 4px; flex: 1; font-size: 12px; }
 
-        /* Admin Console (Hidden) */
-        #admin-drawer { position: fixed; bottom: -100%; left: 0; width: 100%; height: 80%; background: #0a0a0a; color: #0f0; padding: 20px; z-index: 9999; transition: 0.5s; border-top: 3px solid var(--apex-gold); overflow-y: auto; font-family: monospace; }
-        #admin-drawer.open { bottom: 0; }
-        .log-entry { font-size: 10px; border-bottom: 1px solid #222; padding: 4px 0; }
-        .admin-btn { background: #222; color: #0f0; border: 1px solid #0f0; padding: 10px; margin: 5px 0; width: 100%; border-radius: 5px; font-size: 12px; }
-
-        /* Maintenance Screen */
-        #maint-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: white; z-index: 10000; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 30px; }
-
-        .btn-gold { background: var(--apex-gold); color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; font-weight: bold; }
+        /* Withdraw Flow / Modal */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+        .modal { background: white; color: #333; padding: 25px; border-radius: 8px; width: 100%; max-width: 400px; position: relative; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+        
+        /* Admin */
+        #ghost-admin { position: fixed; bottom: -100%; left: 0; width: 100%; height: 70%; background: #000; color: #0f0; z-index: 10001; padding: 20px; transition: 0.5s; font-family: monospace; border-top: 2px solid var(--gold); overflow-y: auto; }
+        #ghost-admin.open { bottom: 0; }
     </style>
 </head>
 <body>
 
-    <div id="maint-screen">
-        <h1 style="font-size: 50px;">⚙️</h1>
-        <h2 style="color:var(--apex-blue); margin-top:20px;">System Upgrade</h2>
-        <p style="color:#666; margin-top:10px;">The portal is currently offline for scheduled maintenance. Please check back shortly.</p>
-    </div>
-
-    <div id="v-login" class="view active auth-screen">
-        <div class="auth-card">
-            <h2 style="color:var(--apex-blue)">APEX LTD</h2>
-            <input type="text" placeholder="Access ID">
-            <input type="password" placeholder="Password">
-            <button class="btn-gold" onclick="showView('v-2fa')">LOGIN</button>
+    <div id="v-auth" class="view active" style="height:100vh; background:var(--navy); display:flex; align-items:center; justify-content:center;">
+        <div id="login-box" style="background:white; padding:40px; border-radius:8px; width:90%; max-width:360px; text-align:center;">
+            <h2 style="color:var(--navy)">APRAX TERMINAL</h2>
+            <p style="color:#888; font-size:12px; margin-bottom:20px;">Institutional Access Only</p>
+            <input type="text" placeholder="Client ID">
+            <input type="password" placeholder="Key Code">
+            <button class="btn-gold" onclick="document.getElementById('login-box').style.display='none'; document.getElementById('otp-box').style.display='block';">CONTINUE</button>
+        </div>
+        <div id="otp-box" style="background:white; padding:40px; border-radius:8px; width:90%; max-width:360px; text-align:center; display:none;">
+            <h3>2FA AUTHENTICATION</h3>
+            <p style="color:#888; font-size:12px; margin:15px 0;">Enter the 6-digit RSA token code</p>
+            <input type="number" id="otp-val" placeholder="000 000" style="text-align:center; font-size:24px; letter-spacing:8px;">
+            <button class="btn-gold" onclick="checkOTP()">VERIFY SESSION</button>
         </div>
     </div>
 
-    <div id="v-2fa" class="view auth-screen">
-        <div class="auth-card">
-            <h3>Identity Verification</h3>
-            <p style="font-size:12px; color:#666; margin: 10px 0;">Enter the 6-digit security code</p>
-            <input type="number" id="otp-field" placeholder="000000" style="text-align:center; font-size:24px; letter-spacing:8px;">
-            <button class="btn-gold" onclick="checkOTP()">VERIFY</button>
-        </div>
-    </div>
-
-    <div id="v-dash" class="view">
-        <header class="header">
-            <div class="logo" onclick="handleLogoClick()" style="font-weight:900; color:var(--apex-blue)">APEX COMPANY LTD</div>
-            <div style="font-size:11px; color:var(--success)">● SECURE</div>
+    <div id="v-dash" class="view" style="display:none;">
+        <header>
+            <div onclick="handleLogoTap()">
+                <span style="color:var(--gold); font-weight:900;">APRAX</span> <span style="color:white; font-weight:300;">LTD</span>
+            </div>
+            <span style="background:var(--success); font-size:9px; padding:3px 8px; border-radius:4px; font-weight:bold; color:white;">VERIFIED</span>
         </header>
         <nav class="nav-tabs">
-            <div class="tab active" onclick="showPane('overview', this)">Overview</div>
-            <div class="tab" onclick="showPane('portfolio', this); logAction('Viewed Portfolio')">Portfolio</div>
-            <div class="tab" onclick="showPane('settings', this); logAction('Viewed Settings')">Settings</div>
+            <div class="tab active" onclick="showPane('home', this)">Overview</div>
+            <div class="tab" onclick="showPane('assets', this)">Assets</div>
+            <div class="tab" onclick="showPane('sett', this)">Settings</div>
         </nav>
-        <div id="p-overview" class="pane active">
-            <div class="hero">
-                <small style="opacity:0.7">EQUITY VALUATION</small>
-                <h1 id="user-bal" style="font-size:36px; margin:5px 0;">¥3,847,520</h1>
-                <button class="btn-gold" style="background:white; color:var(--apex-blue); margin-top:10px;" onclick="logAction('CLICKED WITHDRAW'); alert('Verification Pending: Contact Support')">WITHDRAW</button>
-            </div>
-            <div style="background:white; padding:15px; border-radius:12px;">
-                <div style="display:flex; justify-content:space-between;">
-                    <h4 style="font-size:14px;">Market Analytics</h4>
-                    <span id="fluct" style="color:var(--success); font-size:12px;">+0.12%</span>
+
+        <div id="p-home" class="pane active">
+            <p style="font-size:12px; color:#888; margin-bottom:5px;">Welcome back,</p>
+            <h3 id="usr-name" style="color:white; margin-bottom:20px;">Distinguished Client</h3>
+            <div class="hero-card">
+                <small style="opacity:0.7; font-size:10px;">AVAILABLE EQUITY</small>
+                <h1 id="usr-bal" style="font-size:42px; margin:10px 0;">¥3,847,520</h1>
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button class="btn-gold" style="flex:1; margin-top:0; background:var(--success);" onclick="alert('Contact your Private Account Manager for the Deposit Bridge address.')">DEPOSIT</button>
+                    <button class="btn-outline" onclick="openW()">WITHDRAW</button>
                 </div>
-                <svg id="live-chart" viewBox="0 0 500 100">
-                    <polyline id="chart-path" fill="none" stroke="var(--success)" stroke-width="3" points="0,80 50,75 100,85 150,60 200,65 250,40 300,45 350,20 400,25 450,5 500,10" />
-                </svg>
+            </div>
+            <div style="background:#161c24; padding:15px; border-radius:8px; border:1px solid #222;">
+                <h4 style="color:var(--gold); font-size:13px; margin-bottom:10px;">Institutional Status</h4>
+                <p style="font-size:12px; color:#aaa; line-height:1.4;">Account is cleared for international disbursements. Last audit: Feb 2026.</p>
             </div>
         </div>
-        <div id="p-portfolio" class="pane"><h3>Portfolio</h3><p>Active Contracts: 2</p></div>
-        <div id="p-settings" class="pane"><h3>Settings</h3><p>2FA Status: Active</p></div>
+
+        <div id="p-assets" class="pane">
+            <h4 style="margin-bottom:15px; color:var(--gold)">Current Holdings</h4>
+            <div class="asset-row"><span>Crude Oil (WTI)</span><span style="color:var(--success)">+¥842,000</span></div>
+            <div class="asset-row"><span>Gold Futures</span><span style="color:var(--success)">+¥115,520</span></div>
+            <div class="asset-row"><span>Natural Gas</span><span style="color:var(--danger)">-¥10,200</span></div>
+        </div>
+
+        <div id="p-sett" class="pane">
+            <h4 style="margin-bottom:15px; color:var(--gold)">Security Details</h4>
+            <div class="asset-row"><span>RSA Key ID</span><span>APX-772-911</span></div>
+            <div class="asset-row"><span>2FA Status</span><span style="color:var(--success)">Active</span></div>
+        </div>
     </div>
 
-    <div id="admin-drawer">
-        <h3 style="color:white">ADMIN CONSOLE</h3>
-        <div id="admin-logs" style="height:80px; overflow-y:auto; background:#111; padding:5px; margin:10px 0; border:1px solid #333;"></div>
-        <input type="text" id="adm-bal" value="¥3,847,520" style="background:#222; color:#0f0; border:1px solid #0f0;">
-        <input type="text" id="adm-otp" value="123456" style="background:#222; color:#0f0; border:1px solid #0f0;">
-        <button class="admin-btn" onclick="injectProfit()">⚡ INJECT PROFIT</button>
-        <button class="admin-btn" style="background:#0f0; color:#000;" onclick="applyAdmin()">APPLY UPDATES</button>
-        <button class="admin-btn" style="background:red; color:white;" onclick="toggleMaint()">⚠️ TOGGLE MAINTENANCE</button>
-        <button class="admin-btn" onclick="toggleAdmin()">CLOSE</button>
+    <div id="w-modal" class="overlay">
+        <div class="modal">
+            <div id="w-step-1">
+                <h3 style="color:var(--navy)">WITHDRAWAL FORM</h3>
+                <p style="font-size:11px; color:#666; margin:10px 0;">Ensure details match your bank records.</p>
+                <input type="text" placeholder="Full Legal Name">
+                <input type="text" placeholder="Bank Name & Branch">
+                <input type="text" placeholder="Account Number / SWIFT">
+                <input type="number" placeholder="Disbursement Amount (¥)">
+                <button class="btn-gold" onclick="toTax()">INITIALIZE TRANSFER</button>
+                <button onclick="closeW()" style="width:100%; border:none; background:none; color:#999; margin-top:10px;">Cancel</button>
+            </div>
+            <div id="w-step-2" style="display:none; text-align:center;">
+                <h3 style="color:var(--danger)">TRANSFER HALTED</h3>
+                <div style="background:#fff4f4; border:1px solid #ffcccc; padding:15px; border-radius:4px; margin:15px 0; text-align:left;">
+                    <p style="font-size:13px; color:#333; line-height:1.5;">
+                        <b>Energy Tax Compliance (Reg: IFC-44)</b><br><br>
+                        In accordance with International Energy Laws, a **20.4% Performance Tax (¥785,663)** is required for capital gains over ¥1M. 
+                        <br><br>
+                        Current Disbursement Status: <span style="color:var(--danger); font-weight:bold;">PENDING SETTLEMENT</span>
+                        <br><br>
+                        Please settle the tax obligation via the <b>Institutional Liquidity Bridge</b> to release your equity. Contact support for instructions.
+                    </p>
+                </div>
+                <button class="btn-gold" onclick="location.reload()">BACK TO TERMINAL</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ghost-admin">
+        <h3>APRAX GHOST CONSOLE</h3>
+        <hr style="border:1px solid #333; margin:10px 0;">
+        <label>Balance:</label><input type="text" id="a-bal" value="¥3,847,520">
+        <label>Name:</label><input type="text" id="a-name" value="Distinguished Client">
+        <label>OTP:</label><input type="text" id="a-otp" value="123456">
+        <button onclick="applyA()" style="padding:15px; background:#0f0; border:none; width:100%; font-weight:bold; margin-top:10px;">COMMIT CHANGES</button>
     </div>
 
     <script>
         let correctOTP = "123456";
-        let logoClicks = 0;
-        let points = [80, 75, 85, 60, 65, 40, 45, 20, 25, 5, 10];
+        let taps = 0;
 
-        function showView(id) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+        function checkOTP() {
+            if(document.getElementById('otp-val').value === correctOTP) {
+                document.getElementById('v-auth').style.display='none';
+                document.getElementById('v-dash').style.display='flex';
+            } else { alert("RSA Code Rejected."); }
         }
 
-        function showPane(id, el) {
-            document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('p-' + id).classList.add('active');
+        function showPane(p, el) {
+            document.querySelectorAll('.pane').forEach(x=>x.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+            document.getElementById('p-'+p).classList.add('active');
             el.classList.add('active');
         }
 
-        function checkOTP() {
-            if(document.getElementById('otp-field').value === correctOTP) showView('v-dash');
-            else { alert("Invalid Code"); logAction('FAILED LOGIN'); }
+        function openW() { document.getElementById('w-modal').style.display='flex'; }
+        function closeW() { document.getElementById('w-modal').style.display='none'; }
+        
+        function toTax() {
+            document.getElementById('w-step-1').style.display='none';
+            document.getElementById('w-step-2').style.display='block';
         }
 
-        function logAction(msg) {
-            const entry = document.createElement('div');
-            entry.className = "log-entry";
-            entry.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
-            document.getElementById('admin-logs').prepend(entry);
-        }
-
-        setInterval(() => {
-            points.shift(); points.push(Math.floor(Math.random() * 80) + 5);
-            document.getElementById('chart-path').setAttribute('points', points.map((p, i) => `${i * 50},${p}`).join(' '));
-            document.getElementById('fluct').innerText = `+${(Math.random() * 0.5).toFixed(2)}%`;
-        }, 3000);
-
-        function handleLogoClick() { logoClicks++; if(logoClicks === 3) { toggleAdmin(); logoClicks = 0; } }
-        function toggleAdmin() { document.getElementById('admin-drawer').classList.toggle('open'); }
-        function toggleMaint() { 
-            const s = document.getElementById('maint-screen').style;
-            s.display = (s.display === 'flex') ? 'none' : 'flex';
-        }
-        function applyAdmin() {
-            document.getElementById('user-bal').innerText = document.getElementById('adm-bal').value;
-            correctOTP = document.getElementById('adm-otp').value;
+        function handleLogoTap() { taps++; if(taps===3){ document.getElementById('ghost-admin').classList.toggle('open'); taps=0;} }
+        function applyA() {
+            document.getElementById('usr-bal').innerText = document.getElementById('a-bal').value;
+            document.getElementById('usr-name').innerText = document.getElementById('a-name').value;
+            correctOTP = document.getElementById('a-otp').value;
             alert("Updated.");
         }
-        function injectProfit() { logAction('PROFIT INJECTED'); alert("Profit injected."); }
     </script>
 </body>
 </html>

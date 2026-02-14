@@ -2,242 +2,275 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aprax Institutional | Energy Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Aprax Institutional | Petroleum & Energy Terminal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --navy: #001a38; --gold: #c5a059; --green: #27ae60; --red: #e74c3c; --bg: #f8f9fa; --white: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background: var(--bg); color: #333; overflow-x: hidden; }
-
-        /* --- RESPONSIVE CONTAINER --- */
-        .wrapper { max-width: 1200px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
-
-        /* --- AUTHENTICATION LAYER --- */
-        #auth-layer { position: fixed; inset: 0; background: var(--navy); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; transition: 0.5s; }
-        .login-card { background: var(--white); padding: 40px; border-radius: 12px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-        .login-card h2 { color: var(--navy); margin-bottom: 10px; font-weight: 800; letter-spacing: -1px; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
-        .btn-prime { width: 100%; padding: 16px; background: var(--navy); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-
-        /* --- HEADER & BRANDING --- */
-        header { background: var(--navy); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--gold); }
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .brand-box { background: var(--white); color: var(--navy); padding: 5px 10px; font-weight: 900; border-radius: 4px; }
-        .verified-pill { background: var(--green); color: white; font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
-
-        /* --- DASHBOARD GRID --- */
-        .main-content { padding: 25px; flex: 1; }
-        .welcome-section { margin-bottom: 25px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: var(--white); padding: 25px; border-radius: 12px; border-bottom: 4px solid #eee; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .stat-card:hover { transform: translateY(-5px); border-bottom-color: var(--gold); }
-        .stat-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .stat-value { font-size: 28px; font-weight: 800; color: var(--navy); }
-
-        /* --- MOVING DATA SECTION --- */
-        .visual-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 30px; }
-        @media (max-width: 900px) { .visual-row { grid-template-columns: 1fr; } }
+        :root { 
+            --navy: #001a38; --gold: #c5a059; --up: #0ecb81; --down: #f6465d; 
+            --bg: #060a0f; --card: #12161c; --text: #eaecef; --dim: #848e9c; 
+            --border: #2b3139; --header-bg: #0b1118;
+        }
         
-        .chart-box { background: var(--white); padding: 25px; border-radius: 12px; min-height: 350px; position: relative; }
-        .live-indicator { float: right; color: var(--green); font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
-        .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; position: fixed; width: 100%; }
+
+        /* --- AUTHENTICATION GATE --- */
+        #auth-gate { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+        .login-box { background: var(--card); padding: 40px; border-radius: 12px; width: 100%; max-width: 420px; text-align: center; border: 1px solid var(--border); box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+        .login-box h2 { color: var(--gold); font-weight: 800; letter-spacing: 2px; margin-bottom: 25px; }
+        .login-input { width: 100%; background: #1c2127; border: 1px solid var(--border); padding: 16px; color: white; border-radius: 8px; margin: 10px 0; font-size: 16px; }
+        .btn-access { width: 100%; padding: 18px; background: var(--gold); color: black; border: none; border-radius: 8px; font-weight: 900; font-size: 16px; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
+
+        /* --- TERMINAL UI --- */
+        .terminal-container { height: 100%; display: flex; flex-direction: column; opacity: 0; transition: 1s ease; }
+        header { padding: 15px 25px; background: var(--header-bg); border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
         
-        /* THE DYNAMIC CHART SVG */
-        .svg-chart { width: 100%; height: 200px; margin-top: 40px; }
-        .chart-path { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; transition: 0.5s ease-in-out; }
+        /* --- LIVE MARQUEE --- */
+        .ticker-bar { background: #000; color: var(--gold); font-size: 11px; padding: 10px 0; overflow: hidden; white-space: nowrap; border-bottom: 1px solid var(--border); }
+        .ticker-content { display: inline-block; animation: marquee 40s linear infinite; font-weight: bold; }
+        @keyframes marquee { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        /* --- REGULATORY ICONS --- */
-        .reg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
-        .reg-item { background: #fff; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
-        .reg-item i { font-size: 24px; color: var(--gold); margin-bottom: 10px; }
-        .reg-item p { font-size: 11px; font-weight: 700; color: var(--navy); }
-
-        /* --- ACTIVITY FEED --- */
-        .activity-card { background: var(--white); border-radius: 12px; overflow: hidden; }
-        .activity-header { padding: 15px 20px; background: #f1f3f5; font-weight: bold; font-size: 14px; color: var(--navy); border-bottom: 1px solid #ddd; }
-        .trade-row { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid #f9f9f9; align-items: center; }
-        .trade-info b { display: block; font-size: 14px; }
-        .trade-info small { color: #999; font-size: 11px; }
-
-        /* --- FOOTER REGULATORY --- */
-        footer { background: var(--navy); color: #aaa; padding: 40px 20px; font-size: 12px; line-height: 1.8; }
-        .footer-logo { color: var(--white); font-weight: 800; margin-bottom: 15px; display: block; font-size: 18px; }
-        .sec-box { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 4px; margin: 15px 0; border-left: 3px solid var(--gold); }
-
-        /* --- ACTIONS --- */
-        .action-bar { position: sticky; bottom: 0; background: var(--white); padding: 15px; display: flex; gap: 10px; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); }
-        .btn-act { flex: 1; padding: 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .withdraw { background: var(--green); color: white; }
-        .deposit { background: var(--navy); color: white; }
-
-        /* --- MODALS --- */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 20000; align-items: center; justify-content: center; padding: 20px; }
-        .modal { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 400px; position: relative; }
+        /* --- DASHBOARD CONTENT --- */
+        .viewport { flex: 1; overflow-y: auto; padding-bottom: 100px; -webkit-overflow-scrolling: touch; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .user-welcome { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .email-pill { background: rgba(197, 160, 89, 0.1); color: var(--gold); padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; border: 1px solid rgba(197, 160, 89, 0.3); }
+
+        /* --- EQUITY CARD --- */
+        .equity-hero { background: linear-gradient(135deg, #12161c 0%, #001a38 100%); padding: 35px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 25px; position: relative; overflow: hidden; }
+        .equity-label { color: var(--dim); font-size: 11px; font-weight: bold; letter-spacing: 2px; margin-bottom: 10px; }
+        .equity-main { font-size: 45px; font-weight: 900; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+        .equity-sub { display: flex; gap: 20px; margin-top: 15px; font-size: 12px; font-weight: bold; }
+
+        /* --- LIVE CHARTS --- */
+        .chart-frame { background: #000; border: 1px solid var(--border); border-radius: 12px; height: 350px; margin-bottom: 25px; padding: 20px; position: relative; }
+        .chart-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); margin-bottom: 15px; }
+        .candle-container { display: flex; align-items: flex-end; gap: 4px; height: 240px; }
+        .candle { flex: 1; background: var(--up); transition: height 0.3s ease; position: relative; min-width: 6px; }
+        .candle::after { content: ''; position: absolute; width: 1px; height: 140%; background: inherit; left: 50%; bottom: -20%; opacity: 0.3; }
+
+        /* --- DATA GRID --- */
+        .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
+        @media (min-width: 768px) { .data-grid { grid-template-columns: repeat(4, 1fr); } }
+        .data-card { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; }
+        .data-card .label { font-size: 10px; color: var(--dim); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
+        .data-card .value { font-size: 20px; font-weight: 700; }
+
+        /* --- ACTIVITY LOG --- */
+        .activity-section { background: var(--card); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .activity-row { display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid #1e2329; align-items: center; }
+        .activity-row:last-child { border: none; }
+        .order-type { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .order-date { font-size: 10px; color: var(--dim); }
+
+        /* --- REGULATORY FOOTER --- */
+        footer { background: #05080c; padding: 60px 25px; border-top: 1px solid var(--border); color: var(--dim); font-size: 11px; line-height: 1.8; text-align: center; }
+        .compliance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; max-width: 600px; margin-inline: auto; }
+        .comp-icon { border: 1px solid #1e2329; padding: 15px; border-radius: 8px; }
+        .comp-icon i { font-size: 22px; color: var(--gold); margin-bottom: 10px; }
+
+        /* --- MODALS & TAX --- */
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 5000; overflow-y: auto; }
+        .overlay.active { display: flex; flex-direction: column; }
+        .modal-body { padding: 40px 25px; max-width: 500px; margin: auto; width: 100%; }
+
+        /* --- ADMIN PANEL --- */
+        #admin-panel { position: fixed; top: -100%; left: 0; width: 100%; height: 60%; background: #000; z-index: 20000; transition: 0.6s; border-bottom: 3px solid var(--gold); padding: 40px; }
+        #admin-panel.open { top: 0; }
+
+        /* --- DOCK --- */
+        .action-dock { position: fixed; bottom: 0; width: 100%; background: #0b1118; border-top: 2px solid var(--border); display: flex; padding: 15px 20px; gap: 15px; z-index: 1000; }
+        .btn-dock { flex: 1; padding: 18px; border-radius: 10px; border: none; font-weight: 900; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-green { background: var(--up); color: white; }
+        .btn-navy { background: var(--navy); color: white; border: 1px solid var(--gold); }
     </style>
 </head>
 <body>
 
-    <div id="auth-layer">
-        <div class="login-card">
-            <h2>APRAX INSTITUTIONAL</h2>
-            <p style="color: #888; font-size: 13px; margin-bottom: 20px;">Secure Asset Management Portal</p>
-            <input type="email" id="userEmail" placeholder="Corporate Email Address">
-            <input type="password" id="userPass" placeholder="Access Key">
-            <button class="btn-prime" onclick="handleLogin()">SECURE LOGIN</button>
-            <p style="margin-top: 20px; font-size: 11px; color: #bbb;">Encrypted by RSA-4096 Multi-Layer Security</p>
+    <div id="auth-gate">
+        <div class="login-box">
+            <i class="fa-solid fa-oil-well" style="font-size: 50px; color: var(--gold); margin-bottom: 20px;"></i>
+            <h2>APRAX ACCESS</h2>
+            <input type="email" id="email-in" class="login-input" placeholder="Corporate Email Address">
+            <input type="password" class="login-input" placeholder="Security Password">
+            <button class="btn-access" onclick="handleLogin()">Authorize Terminal</button>
+            <p style="margin-top: 25px; font-size: 10px; color: var(--dim);">RSA-4096 ENCRYPTION • INSTITUTIONAL NODE JP-44</p>
         </div>
     </div>
 
-    <div class="wrapper">
+    <div class="terminal-container" id="terminal">
         <header>
-            <div class="brand">
-                <div class="brand-box">A</div>
-                <div>
-                    <div style="font-weight: 900; letter-spacing: 1px;">APRAX ENERGY</div>
-                    <div style="font-size: 9px; opacity: 0.7;">SEC Reg: 801-94563 | FINRA Member</div>
-                </div>
-                <div class="verified-pill"><i class="fa-solid fa-check"></i> Verified</div>
+            <div onclick="adminTap()" style="font-weight: 900; letter-spacing: 1.5px; cursor: default;">
+                <span style="color: var(--gold)">APRAX</span> PETROLEUM
             </div>
-            <button onclick="location.reload()" style="background: rgba(255,255,255,0.1); border:none; color:white; padding:8px 15px; border-radius:4px; font-size:12px; cursor:pointer;">Logout</button>
+            <div style="font-size: 10px; font-weight: 800; color: var(--up); letter-spacing: 1px;">
+                <i class="fa-solid fa-circle-check"></i> LIVE SERVER
+            </div>
         </header>
 
-        <div class="main-content">
-            <div class="welcome-section">
-                <h2 style="color: var(--navy);">Welcome Back!</h2>
-                <p id="displayEmail" style="color: #666; font-size: 14px;">client.access@portal.com</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Total Balance</div>
-                    <div class="stat-value" id="val-bal">$62,500.00</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Principal Invested</div>
-                    <div class="stat-value">$50,000.00</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Accrued Profit</div>
-                    <div class="stat-value" style="color: var(--green);">$12,500.00</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Current ROI</div>
-                    <div class="stat-value" style="color: var(--green);">+25.00%</div>
-                </div>
-            </div>
-
-            <div class="visual-row">
-                <div class="chart-box">
-                    <div class="live-indicator"><div class="live-dot"></div> LIVE PERFORMANCE</div>
-                    <h3 style="color: var(--navy); margin-bottom: 5px;">Portfolio Yield Curve</h3>
-                    <p style="font-size: 12px; color: #999;">Real-time asset appreciation tracking</p>
-                    
-                    <svg class="svg-chart" viewBox="0 0 500 200">
-                        <path class="chart-path" d="M0,180 Q50,170 100,140 T200,120 T300,80 T400,60 T500,20" />
-                    </svg>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <h1 style="color: var(--green); font-size: 48px; font-weight: 900;">+25.00%</h1>
-                        <p style="font-size: 12px; color: #888; font-weight: bold; letter-spacing: 2px;">AGGREGATE GROWTH</p>
-                    </div>
-                </div>
-
-                <div class="reg-section">
-                    <div class="reg-grid">
-                        <div class="reg-item"><i class="fa-solid fa-building-shield"></i><p>SEC REG</p></div>
-                        <div class="reg-item"><i class="fa-solid fa-user-check"></i><p>FINRA</p></div>
-                        <div class="reg-item"><i class="fa-solid fa-lock"></i><p>SIPC</p></div>
-                        <div class="reg-item"><i class="fa-solid fa-star"></i><p>A+ BBB</p></div>
-                        <div class="reg-item"><i class="fa-solid fa-award"></i><p>ISO 9001</p></div>
-                        <div class="reg-item"><i class="fa-solid fa-gem"></i><p>PREMIUM</p></div>
-                    </div>
-                    
-                    <div class="activity-card">
-                        <div class="activity-header">RECENT TRADING ACTIVITY</div>
-                        <div class="trade-row">
-                            <div class="trade-info"><b>BUY • Crude Oil Futures</b><small>Feb 13, 2026</small></div>
-                            <div style="text-align:right;"><b>$15,000</b><span style="color:var(--green); font-size:12px; font-weight:bold;">+$3,750</span></div>
-                        </div>
-                        <div class="trade-row">
-                            <div class="trade-info"><b>SELL • Brent Crude</b><small>Feb 10, 2026</small></div>
-                            <div style="text-align:right;"><b>$20,000</b><span style="color:var(--green); font-size:12px; font-weight:bold;">+$5,000</span></div>
-                        </div>
-                    </div>
-                </div>
+        <div class="ticker-bar">
+            <div class="ticker-content">
+                WTI_CRUDE: $78.42 (+1.4%) &nbsp;&nbsp; BRENT_OIL: $82.10 (+0.9%) &nbsp;&nbsp; NATURAL_GAS: $2.56 (-0.3%) &nbsp;&nbsp; PETRO_CAP: $242.9B &nbsp;&nbsp; APRAX_EQUITY: +18.4% (MONTHLY)
             </div>
         </div>
 
-        <footer>
-            <span class="footer-logo">APRAX ENERGY PORTAL</span>
-            <p>Aprax Energy is a registered investment adviser providing institutional-grade energy investment opportunities to qualified investors worldwide. All energy contracts are backed by physical oil reserves and liquid futures.</p>
-            
-            <div class="sec-box">
-                <b>SEC Registration: 801-94563 | CRD Number: 294856</b><br>
-                FINRA Member Firm | SIPC Protected Assets up to $500,000<br>
-                Licensed in all 50 states | Audited by: Deloitte & Touche LLP
-            </div>
-            
-            <p style="opacity: 0.5; margin-top: 20px;">© 2026 Aprax Energy Company, Inc. All rights reserved.</p>
-        </footer>
+        <div class="viewport">
+            <div class="container">
+                <div class="user-welcome">
+                    <div>
+                        <p style="font-size: 11px; color: var(--dim); margin-bottom: 4px;">Welcome Back,</p>
+                        <div class="email-pill" id="email-display">user@aprax.com</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 11px; color: var(--dim); margin-bottom: 4px;">Status</p>
+                        <span style="color: var(--up); font-size: 12px; font-weight: 900;">AUTHORIZED</span>
+                    </div>
+                </div>
 
-        <div class="action-bar">
-            <button class="btn-act withdraw" onclick="openWithdraw()"><i class="fa-solid fa-sack-dollar"></i> Withdraw Funds</button>
-            <button class="btn-act deposit" onclick="alert('Contact Manager for Deposit Bridge')"><i class="fa-solid fa-circle-plus"></i> Add Funds</button>
+                <div class="equity-hero">
+                    <div class="equity-label">TOTAL ACCOUNT EQUITY (USD)</div>
+                    <div class="equity-main" id="live-balance">$62,500.00</div>
+                    <div class="equity-sub">
+                        <span style="color: var(--up)">+$12,500.00 Profit</span>
+                        <span style="color: var(--dim)">● Risk: Institutional Low</span>
+                    </div>
+                </div>
+
+                <div class="data-grid">
+                    <div class="data-card"><div class="label">Principal</div><div class="value">$50,000.00</div></div>
+                    <div class="data-card"><div class="label">Total ROI</div><div class="value" style="color:var(--up)">+25.00%</div></div>
+                    <div class="data-card"><div class="label">Margin</div><div class="value">99.8%</div></div>
+                    <div class="data-card"><div class="label">Leverage</div><div class="value">1:100</div></div>
+                </div>
+
+                <div class="chart-frame">
+                    <div class="chart-legend">
+                        <span>WTI_OIL_SPOT_CONTRACT</span>
+                        <span id="price-tick">$78.42</span>
+                    </div>
+                    <div class="candle-container" id="candle-engine"></div>
+                </div>
+
+                <div class="activity-section">
+                    <div style="padding: 15px 20px; font-size: 12px; font-weight: 900; color: var(--gold); border-bottom: 1px solid var(--border);">ORDER HISTORY</div>
+                    <div class="activity-row">
+                        <div><div class="order-type"><span style="color:var(--up)">BUY</span> Crude Oil Future</div><span class="order-date">Feb 14, 2026 • 10:44 AM</span></div>
+                        <div style="text-align:right;"><div style="font-weight:bold;">$15,000.00</div><span style="color:var(--up); font-size:11px; font-weight:bold;">+$3,750.00</span></div>
+                    </div>
+                    <div class="activity-row">
+                        <div><div class="order-type"><span style="color:var(--up)">BUY</span> Natural Gas Spot</div><span class="order-date">Feb 11, 2026 • 02:12 PM</span></div>
+                        <div style="text-align:right;"><div style="font-weight:bold;">$10,000.00</div><span style="color:var(--up); font-size:11px; font-weight:bold;">+$2,500.00</span></div>
+                    </div>
+                </div>
+
+                <div class="compliance-grid">
+                    <div class="comp-icon"><i class="fa-solid fa-building-shield"></i><p>SEC REG</p></div>
+                    <div class="comp-icon"><i class="fa-solid fa-shield-halved"></i><p>FINRA</p></div>
+                    <div class="comp-icon"><i class="fa-solid fa-lock"></i><p>SIPC</p></div>
+                </div>
+            </div>
+
+            <footer>
+                <strong style="color: white; font-size: 16px; display: block; margin-bottom: 20px;">APRAX ENERGY COMPANY</strong>
+                <p>Registered investment advisor providing institutional access to high-yield energy commodities. All accounts are backed by physical petroleum reserves and liquid futures contracts.</p>
+                <div style="background: rgba(255,255,255,0.03); border-left: 3px solid var(--gold); padding: 20px; margin: 30px 0; text-align: left;">
+                    <strong>Compliance:</strong> SEC Registration #801-94563 | FINRA Member | Audited by Deloitte & Touche LLP. SIPC Protected Assets up to $500,000.
+                </div>
+                <p style="opacity: 0.5;">© 2026 Aprax Energy Company, Inc. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <div class="action-dock">
+            <button class="btn-dock btn-green" onclick="toggleMod('w-modal')"><i class="fa-solid fa-sack-dollar"></i> Withdraw</button>
+            <button class="btn-dock btn-navy" onclick="alert('Contact Senior Manager for funding bridge.')"><i class="fa-solid fa-plus-circle"></i> Deposit</button>
         </div>
     </div>
 
-    <div id="w-modal" class="modal-overlay">
-        <div class="modal">
-            <div id="step-1">
-                <h3 style="color:var(--navy); margin-bottom:15px;">Withdrawal Request</h3>
-                <input type="text" placeholder="Full Legal Name">
-                <input type="text" placeholder="Bank Name / Swift Code">
-                <input type="text" placeholder="Account Number">
-                <input type="number" placeholder="Amount ($)">
-                <button class="btn-prime" onclick="toStep2()">INITIALIZE DISBURSEMENT</button>
-                <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color:#888;">Cancel</button>
-            </div>
-            <div id="step-2" style="display:none; text-align:center;">
-                <i class="fa-solid fa-circle-exclamation" style="font-size:50px; color:var(--red); margin-bottom:20px;"></i>
-                <h3 style="color:var(--red)">TRANSFER HALTED</h3>
-                <div style="background:#fff5f5; border:1px solid #ffcccc; padding:15px; border-radius:8px; margin:20px 0; text-align:left; font-size:13px; line-height:1.5;">
-                    <b>IRS Compliance Notice:</b> In accordance with Federal Capital Gains Tax (Reg: 26 U.S.C. § 1201), a 20.4% Settlement Fee ($12,750) must be cleared prior to international disbursement.<br><br>
-                    Please settle the tax obligation via the <b>Institutional Bridge</b> to release funds.
-                </div>
-                <button class="btn-prime" onclick="location.reload()">UNDERSTOOD</button>
-            </div>
+    <div id="w-modal" class="overlay">
+        <div class="modal-body" id="w-step-1">
+            <div onclick="toggleMod('w-modal')" style="color:var(--dim); margin-bottom:20px; cursor:pointer;"><i class="fa-solid fa-chevron-left"></i> Back to Terminal</div>
+            <h2 style="color:var(--gold); margin-bottom:10px;">Bank Transfer</h2>
+            <p style="color:var(--dim); font-size:12px; margin-bottom:30px;">Authorized disbursement to personal bank account.</p>
+            <input type="text" class="login-input" placeholder="Full Legal Name">
+            <input type="text" class="login-input" placeholder="Bank Name & Swift">
+            <input type="text" class="login-input" placeholder="Account / IBAN">
+            <input type="number" class="login-input" placeholder="Amount ($)">
+            <button class="btn-access" onclick="gotoTax()">Process Withdrawal</button>
         </div>
+        <div class="modal-body" id="w-step-2" style="display:none; text-align:center;">
+            <i class="fa-solid fa-circle-exclamation" style="font-size:60px; color:var(--down); margin-bottom:25px;"></i>
+            <h2 style="color:var(--down); font-weight:900;">TRANSFER HALTED</h2>
+            <div style="background:rgba(246, 70, 93, 0.05); border:1px solid rgba(246, 70, 93, 0.2); padding:20px; border-radius:10px; margin:25px 0; text-align:left; font-size:13px; line-height:1.6;">
+                <strong>Regulatory Compliance Alert (IRS/SEC):</strong><br><br>
+                Under Federal Energy Tax Regulation 26 U.S.C. § 1201, a <strong>20.4% Performance Tax Settlement ($12,750.00)</strong> is required prior to capital gains release.
+                <br><br>
+                Status: <span style="color:var(--down); font-weight:bold;">AWAITING TAX PAYMENT</span>
+            </div>
+            <button class="btn-access" style="background:#222; color:white;" onclick="location.reload()">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <div id="admin-panel">
+        <h2 style="color:var(--gold); margin-bottom:25px;">ADMIN COMMAND CENTER</h2>
+        <input type="text" id="adm-bal" class="login-input" placeholder="New Balance (e.g. $500,000)">
+        <input type="text" id="adm-mail" class="login-input" placeholder="Override Email Address">
+        <button class="btn-access" onclick="applyAdmin()">Commit Updates</button>
+        <button onclick="adminTap()" style="width:100%; border:none; background:none; color:white; margin-top:20px;">Close Console</button>
     </div>
 
     <script>
+        let taps = 0;
+        let balVal = 62500.00;
+
         function handleLogin() {
-            const email = document.getElementById('userEmail').value;
-            if(email.includes('@')) {
-                document.getElementById('displayEmail').innerText = email;
-                document.getElementById('auth-layer').style.opacity = '0';
-                setTimeout(() => { document.getElementById('auth-layer').style.display = 'none'; }, 500);
-            } else { alert("Enter a valid institutional email"); }
+            const mail = document.getElementById('email-in').value;
+            if(mail.includes('@')) {
+                document.getElementById('email-display').innerText = mail;
+                document.getElementById('auth-gate').style.transform = 'translateY(-100%)';
+                document.getElementById('terminal').style.opacity = '1';
+                initCharts();
+            }
         }
 
-        // --- REAL TIME CHART ANIMATION ---
-        const path = document.querySelector('.chart-path');
-        let points = [180, 170, 140, 120, 80, 60, 20];
-        
-        setInterval(() => {
-            // Shift points slightly to simulate market movement
-            points = points.map(p => p + (Math.random() * 4 - 2));
-            const d = `M0,${points[0]} Q50,${points[1]} 100,${points[2]} T200,${points[3]} T300,${points[4]} T400,${points[5]} T500,${points[6]}`;
-            path.setAttribute('d', d);
-        }, 2000);
+        function initCharts() {
+            const engine = document.getElementById('candle-engine');
+            for(let i=0; i<40; i++) {
+                let c = document.createElement('div');
+                c.className = 'candle';
+                c.style.height = (Math.random() * 200 + 20) + 'px';
+                engine.appendChild(c);
+            }
 
-        function openWithdraw() { document.getElementById('w-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('w-modal').style.display = 'none'; }
-        function toStep2() {
-            document.getElementById('step-1').style.display = 'none';
-            document.getElementById('step-2').style.display = 'block';
+            setInterval(() => {
+                // Fluctuate Price
+                let delta = (Math.random() * 0.1 - 0.05);
+                balVal += delta;
+                document.getElementById('live-balance').innerText = balVal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                document.getElementById('price-tick').innerText = '$' + (78.42 + delta).toFixed(2);
+
+                // Fluctuate Candles
+                document.querySelectorAll('.candle').forEach(c => {
+                    let h = parseInt(c.style.height);
+                    let m = (Math.random() * 12 - 6);
+                    c.style.height = Math.max(15, Math.min(230, h + m)) + 'px';
+                    c.style.background = m > 0 ? 'var(--up)' : 'var(--down)';
+                });
+            }, 1800);
+        }
+
+        function toggleMod(id) { document.getElementById(id).classList.toggle('active'); }
+        function gotoTax() { document.getElementById('w-step-1').style.display = 'none'; document.getElementById('w-step-2').style.display = 'block'; }
+        
+        function adminTap() { taps++; if(taps === 3) { document.getElementById('admin-panel').classList.toggle('open'); taps = 0; } }
+        function applyAdmin() {
+            const b = document.getElementById('adm-bal').value;
+            const m = document.getElementById('adm-mail').value;
+            if(b) document.getElementById('live-balance').innerText = b;
+            if(m) document.getElementById('email-display').innerText = m;
+            document.getElementById('admin-panel').classList.remove('open');
+            alert("Override Applied.");
         }
     </script>
 </body>

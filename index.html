@@ -10,74 +10,81 @@
             --mitsui-blue: #004098;
             --success-green: #0ecb81;
             --gold: #c5a059;
+            --bg: #f4f7f9;
+            --white: #ffffff;
+            --text: #333333;
+            --border: #e0e0e0;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hiragino Sans', 'Meiryo', sans-serif; }
-        body { background: #f4f7f9; color: #333; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hiragino Sans', 'Meiryo', 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.5; }
 
-        /* LOGIN - ONLY MITSUI LOGO (NO TEXT) */
-        #login-page { height: 100vh; display: flex; align-items: center; justify-content: center; background: #fff; }
-        .login-card { width: 100%; max-width: 450px; padding: 40px; text-align: center; border-top: 5px solid var(--mitsui-blue); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .login-logo { max-width: 320px; height: auto; margin: 0 auto 30px; display: block; }
+        /* LOGIN PAGE */
+        #login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #fff; }
+        .login-card { width: 100%; max-width: 420px; padding: 40px 30px; text-align: center; border-top: 5px solid var(--mitsui-blue); box-shadow: 0 8px 25px rgba(0,0,0,0.08); border-radius: 8px; }
+        .brand-title { font-size: 32px; font-weight: 900; color: var(--mitsui-blue); letter-spacing: 1px; margin-bottom: 30px; }
+        .login-input { width: 100%; padding: 14px; margin: 12px 0; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; }
+        .btn-login { width: 100%; padding: 14px; background: var(--mitsui-blue); color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+        .btn-login:hover { background: #003070; }
 
-        /* HEADER - ONLY MITSUI LOGO + DARK BACKGROUND */
+        /* HEADER & LAYOUT */
         #main-app { display: none; }
-        header { 
-            background: linear-gradient(135deg, #001a38 0%, #000d1c 100%); 
-            color: white; 
-            padding: 14px 25px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-        }
-        .header-logo { height: 46px; width: auto; }
-
+        header { background: var(--mitsui-blue); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+        .brand-title-header { font-size: 26px; font-weight: 900; letter-spacing: 1px; }
         .nav-trigger { font-size: 24px; cursor: pointer; }
-        .sidebar { width: 240px; background: white; height: calc(100vh - 60px); position: fixed; border-right: 1px solid #e0e0e0; padding: 20px 0; }
-        .nav-item { padding: 12px 25px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
-        .nav-item:hover, .nav-item.active { background: #f0f4f8; border-left: 4px solid var(--mitsui-blue); color: var(--mitsui-blue); }
-        .content { margin-left: 240px; padding: 30px; }
-        .card { background: white; border-radius: 8px; border: 1px solid #e0e0e0; padding: 25px; margin-bottom: 20px; }
+
+        .sidebar { width: 240px; background: white; height: calc(100vh - 60px); position: fixed; border-right: 1px solid var(--border); padding: 20px 0; overflow-y: auto; transition: transform 0.3s; transform: translateX(0); }
+        .nav-item { padding: 14px 25px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; font-size: 15px; }
+        .nav-item:hover, .nav-item.active { background: #f0f4f8; border-left: 4px solid var(--mitsui-blue); color: var(--mitsui-blue); font-weight: 600; }
+
+        .content { margin-left: 240px; padding: 25px; }
+        .card { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+
         .profit-up { color: var(--success-green); font-weight: bold; }
-        .big-green { font-size: 42px; font-weight: 900; color: var(--success-green); }
-        .badge-gold { background: var(--gold); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+        .big-green { font-size: 48px; font-weight: 900; color: var(--success-green); margin: 12px 0; }
+        .badge-active { background: rgba(14,203,129,0.1); color: var(--success-green); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+        .badge-gold { background: var(--gold); color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; }
+
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { text-align: left; color: #888; font-size: 12px; padding: 10px; border-bottom: 1px solid #e0e0e0; }
-        td { padding: 15px 10px; border-bottom: 1px solid #f9f9f9; }
-        .btn-login { width: 100%; padding: 15px; background: var(--mitsui-blue); color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 8px; }
-        
+        th { text-align: left; color: #777; font-size: 13px; padding: 12px; border-bottom: 1px solid var(--border); }
+        td { padding: 14px 12px; border-bottom: 1px solid #f9f9f9; font-size: 14px; }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 520px; padding: 35px; border-radius: 10px; text-align: center; }
+
+        #admin-panel { position: fixed; top: -100%; left: 0; width: 100%; background: #1a1a1a; color: #0ecb81; z-index: 9999; padding: 30px; transition: top 0.4s; border-bottom: 4px solid var(--success-green); }
+        #admin-panel.open { top: 0; }
+        .admin-input { background: #333; border: 1px solid #555; color: white; padding: 10px; margin: 8px 0; border-radius: 6px; width: 100%; }
+
         @media (max-width: 768px) {
-            .sidebar { display: none; }
+            .sidebar { transform: translateX(-100%); width: 280px; }
+            .sidebar.open { transform: translateX(0); }
             .content { margin-left: 0; padding: 15px; }
-            .login-logo, .header-logo { max-width: 260px; height: auto; }
+            .brand-title { font-size: 28px; }
+            .brand-title-header { font-size: 22px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- LOGIN PAGE -->
     <div id="login-page">
         <div class="login-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Mitsui_%26_Co._logo.svg/600px-Mitsui_%26_Co._logo.svg.png" 
-                 alt="Mitsui & Co." class="login-logo">
-            
-            <div style="text-align: left; font-size: 13px; margin-top: 20px;">
+            <div class="brand-title">MITSUI & CO., LTD.</div>
+
+            <div style="text-align: left; font-size: 14px; margin-top: 20px;">
                 <label>Email / メールアドレス</label>
                 <input type="email" id="user-email" class="login-input" placeholder="example@mitsui.com">
                 <label>Password / パスワード</label>
                 <input type="password" class="login-input" value="password">
             </div>
             
-            <div style="display:flex; justify-content: space-between; font-size: 12px; margin: 10px 0;">
+            <div style="display:flex; justify-content: space-between; font-size: 13px; margin: 15px 0;">
                 <label><input type="checkbox" checked> Remember me</label>
-                <a href="#" onclick="alert('セキュリティ保護のため、専任のアカウントマネージャーにお問い合わせください。')" style="color: #004098;">Forgot Password?</a>
+                <a href="#" onclick="alert('セキュリティ保護のため、専任のアカウントマネージャーにお問い合わせください。')" style="color: var(--mitsui-blue); text-decoration: none;">Forgot Password?</a>
             </div>
 
             <button class="btn-login" onclick="login()">LOGIN / ログイン</button>
-            <div style="margin-top: 30px; font-size: 11px; color: #999;">
+            <div style="margin-top: 30px; font-size: 12px; color: #888;">
                 <i class="fa-solid fa-lock"></i> Secured by SSL Encryption<br>
                 Regulated by JFSA (Japan Financial Services Agency)
             </div>
@@ -85,13 +92,11 @@
     </div>
 
     <div id="main-app">
+        <!-- HEADER -->
         <header>
-            <div onclick="adminTrigger()" style="cursor:pointer;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Mitsui_%26_Co._logo.svg/600px-Mitsui_%26_Co._logo.svg.png" 
-                     alt="Mitsui & Co." class="header-logo">
-            </div>
+            <div class="brand-title-header">MITSUI & CO., LTD.</div>
             <div style="display:flex; align-items:center; gap:20px;">
-                <span id="display-name" style="font-size:14px;">田中 太郎 様</span>
+                <span id="display-name" style="font-size:15px;">田中 太郎 様</span>
                 <i class="fa-solid fa-bars nav-trigger" onclick="toggleMenu()"></i>
             </div>
         </header>
@@ -106,43 +111,46 @@
 
         <main class="content">
             <div id="page-dashboard">
-                <h3 style="margin-bottom: 20px;">Account Overview <span style="font-weight: normal; color: #888;">| 口座概要</span></h3>
+                <h3 style="margin-bottom: 25px;">Account Overview <span style="font-weight: normal; color: #777;">| 口座概要</span></h3>
+                
                 <div class="card" style="background: linear-gradient(135deg, #004098 0%, #001a38 100%); color: white; border: none;">
-                    <div style="display:flex; justify-content:space-between; align-items:start;">
+                    <div style="display:flex; justify-content:space-between; align-items:start; flex-wrap:wrap; gap:15px;">
                         <div>
-                            <p style="font-size: 12px; opacity: 0.8;">TOTAL ACCOUNT VALUE (総資産額)</p>
-                            <div class="big-green" id="total-val" style="color: #0ecb81;">¥3,847,520</div>
+                            <p style="font-size: 13px; opacity: 0.85;">TOTAL ACCOUNT VALUE (総資産額)</p>
+                            <div class="big-green" id="total-val">¥3,847,520</div>
                         </div>
                         <span class="badge-gold">GOLD VIP</span>
                     </div>
-                    <div style="display:flex; gap:30px; margin-top:15px; font-size: 13px;">
+                    <div style="display:flex; flex-wrap:wrap; gap:25px; margin-top:18px; font-size: 14px;">
                         <div>Initial: <span id="init-val">¥3,000,000</span></div>
                         <div>Total Profit: <span class="profit-up" id="profit-val">+¥847,520</span></div>
                         <div>Return: <span class="profit-up">+28.25% ▲</span></div>
                     </div>
                 </div>
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
                     <div class="card">
-                        <p style="font-size:12px; color:#888;">AVAILABLE FOR WITHDRAWAL</p>
-                        <h2 style="margin:10px 0;" id="avail-val">¥3,847,520</h2>
-                        <button class="btn-login" style="background: var(--success-green); padding: 10px;" onclick="showPage('withdraw')">WITHDRAW NOW</button>
+                        <p style="font-size:13px; color:#777;">AVAILABLE FOR WITHDRAWAL</p>
+                        <h2 style="margin:12px 0;" id="avail-val">¥3,847,520</h2>
+                        <button class="btn-login" style="background: var(--success-green); padding:12px; font-size:15px;" onclick="showPage('withdraw')">WITHDRAW NOW</button>
                     </div>
                     <div class="card">
-                        <p style="font-size:12px; color:#888;">TODAY'S PROFIT</p>
-                        <h2 style="margin:10px 0; color: var(--success-green);">+¥67,420 <span style="font-size:14px;">(1.78% ▲)</span></h2>
-                        <p style="font-size:11px; color:#888;">Real-time Market Gain</p>
+                        <p style="font-size:13px; color:#777;">TODAY'S PROFIT</p>
+                        <h2 style="margin:12px 0; color: var(--success-green);">+¥67,420 <span style="font-size:15px;">(1.78% ▲)</span></h2>
+                        <p style="font-size:12px; color:#777;">Real-time Market Gain</p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h4>Recent Transactions <span style="font-weight:normal; color:#888;">| 最近の取引</span></h4>
+                    <h4>Recent Transactions <span style="font-weight:normal; color:#777;">| 最近の取引</span></h4>
                     <table>
-                        <thead><tr><th>DATE</th><th>ASSET</th><th>SIDE</th><th>AMOUNT</th><th>PROFIT</th></tr></thead>
+                        <thead>
+                            <tr><th>DATE</th><th>ASSET</th><th>SIDE</th><th>AMOUNT</th><th>PROFIT</th></tr>
+                        </thead>
                         <tbody id="trade-history">
                             <tr><td>Feb 11, 10:23</td><td>Crude Oil Futures</td><td class="profit-up">BUY</td><td>¥680,000</td><td class="profit-up">+¥12,240</td></tr>
-                            <tr><td>Feb 11, 09:15</td><td>Natural Gas</td><td style="color:gray">SELL</td><td>¥430,000</td><td class="profit-up">+¥8,170</td></tr>
-                            <tr><td>Feb 10, 14:47</td><td>Gold Futures</td><td style="color:gray">SELL</td><td>¥520,000</td><td class="profit-up">+¥11,960</td></tr>
+                            <tr><td>Feb 11, 09:15</td><td>Natural Gas</td><td class="profit-up">SELL</td><td>¥430,000</td><td class="profit-up">+¥8,170</td></tr>
+                            <tr><td>Feb 10, 14:47</td><td>Gold Futures</td><td class="profit-up">SELL</td><td>¥520,000</td><td class="profit-up">+¥11,960</td></tr>
                             <tr><td>Feb 10, 11:32</td><td>Brent Oil</td><td class="profit-up">BUY</td><td>¥680,000</td><td class="profit-up">+¥13,600</td></tr>
                         </tbody>
                     </table>
@@ -150,74 +158,74 @@
             </div>
 
             <div id="page-account" style="display:none;">
-                <h3 style="margin-bottom: 20px;">Personal Information <span style="font-weight: normal; color: #888;">| 個人情報</span></h3>
+                <h3 style="margin-bottom: 25px;">Personal Information <span style="font-weight: normal; color: #777;">| 個人情報</span></h3>
                 <div class="card">
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; font-size:14px;">
-                        <div><label style="color:#888">Name</label><p id="p-name">田中 太郎 (Tanaka Taro)</p></div>
-                        <div><label style="color:#888">Account Number</label><p>MITSUI-VIP-2026-47291</p></div>
-                        <div><label style="color:#888">Status</label><p><span class="badge-active">ACTIVE & VERIFIED</span></p></div>
-                        <div><label style="color:#888">Tier</label><p>GOLD VIP MEMBER</p></div>
-                        <div><label style="color:#888">Registration Date</label><p>2026年2月1日</p></div>
-                        <div><label style="color:#888">Email</label><p id="p-email">tanaka.taro@example.com</p></div>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:20px; font-size:15px;">
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Name</label><p id="p-name">田中 太郎 (Tanaka Taro)</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Account Number</label><p>MITSUI-VIP-2026-47291</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Status</label><p><span class="badge-active">ACTIVE & VERIFIED</span></p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Tier</label><p>GOLD VIP MEMBER</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Registration Date</label><p>2026年2月1日</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Email</label><p id="p-email">tanaka.taro@example.com</p></div>
                     </div>
                 </div>
+
                 <div class="card" style="border-left: 5px solid var(--mitsui-blue);">
                     <h4>Your Dedicated Manager</h4>
-                    <div style="display:flex; align-items:center; gap:20px; margin-top:15px;">
-                        <div style="width:60px; height:60px; border-radius:50%; background:#ddd; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-user-tie"></i></div>
+                    <div style="display:flex; align-items:center; gap:20px; margin-top:18px; flex-wrap:wrap;">
+                        <div style="width:70px; height:70px; border-radius:50%; background:#eee; display:flex; align-items:center; justify-content:center; font-size:28px; color:#555;"><i class="fa-solid fa-user-tie"></i></div>
                         <div>
-                            <p><strong>山田 太郎 (Yamada Taro)</strong></p>
-                            <p style="font-size:12px; color:#888;">Senior Investment Manager</p>
-                            <p style="font-size:12px; color:var(--mitsui-blue);">yamada@mitsui-investment.com</p>
+                            <p style="font-size:18px; font-weight:600;">Kazumasa Nakai</p>
+                            <p style="font-size:13px; color:#777;">Senior Investment Manager</p>
+                            <a href="https://line.me/ti/p/7u8Tnjzq4r" target="_blank" style="color: var(--mitsui-blue); text-decoration: none; font-weight:600; display:inline-flex; align-items:center; gap:8px; margin-top:8px;">
+                                <i class="fa-brands fa-line" style="font-size:20px;"></i> Contact via LINE
+                            </a>
                         </div>
                     </div>
-                    <button class="btn-login" style="margin-top:15px; background: #222;" onclick="alert('マネージャーを呼び出しています...')">CONTACT MANAGER</button>
                 </div>
             </div>
 
             <div id="page-withdraw" style="display:none;">
-                <h3>Withdrawal Request <span style="font-weight:normal; color:#888;">| 出金リクエスト</span></h3>
+                <h3>Withdrawal Request <span style="font-weight:normal; color:#777;">| 出金リクエスト</span></h3>
                 <div class="card">
-                    <p style="color:#888; font-size:12px;">Available Balance</p>
+                    <p style="color:#777; font-size:13px; margin-bottom:8px;">Available Balance</p>
                     <h2 id="w-avail-display">¥3,847,520</h2>
-                    <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+                    <hr style="margin:25px 0; border:0; border-top:1px solid #eee;">
                     <label>Withdrawal Amount (JPY)</label>
-                    <input type="number" id="withdraw-amount" class="login-input" placeholder="0">
+                    <input type="number" id="withdraw-amount" class="login-input" placeholder="Enter amount">
                     <label>Bank Name</label>
-                    <input type="text" class="login-input" value="三菱UFJ銀行" readonly>
+                    <input type="text" id="bank-name" class="login-input" placeholder="e.g., 三菱UFJ銀行">
                     <label>Account Number</label>
-                    <input type="text" class="login-input" value="*******472" readonly>
-                    <button class="btn-login" style="background: var(--mitsui-blue);" onclick="submitWithdraw()">SUBMIT WITHDRAWAL REQUEST</button>
+                    <input type="text" id="account-number" class="login-input" placeholder="Enter your account number">
+                    <label>Account Holder Name</label>
+                    <input type="text" id="account-holder" class="login-input" placeholder="Enter name">
+                    <button class="btn-login" style="margin-top:20px;" onclick="submitWithdraw()">SUBMIT WITHDRAWAL REQUEST</button>
                 </div>
             </div>
         </main>
     </div>
 
-    <div id="trap-modal" class="modal">
-        <div class="modal-content" style="text-align:center;">
-            <i class="fa-solid fa-triangle-exclamation" style="font-size:50px; color:#f6465d; margin-bottom:20px;"></i>
-            <h2 style="color:#f6465d;">Transfer Halted / 送金保留</h2>
-            <div style="text-align:left; background:#fff5f5; padding:15px; border:1px solid #fecaca; border-radius:5px; margin:20px 0; font-size:13px; line-height:1.6;">
-                <strong>Regulatory Compliance Alert:</strong><br>
-                Under JFSA & NTA Law Section 42-B, a <b>20.4%</b> Capital Gains Tax settlement is required before institutional funds can be released to private accounts.<br><br>
-                Amount Requested: ¥<span id="requested-val">0</span><br>
-                <strong>Tax Required: <span style="color:#f6465d; font-size:18px;" id="tax-val">¥0</span></strong><br><br>
-                Please contact your Account Manager (Yamada Taro) to complete the tax settlement.
-            </div>
-            <button class="btn-login" style="background:#333;" onclick="closeModal()">Back to Dashboard</button>
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <i class="fa-solid fa-check-circle" style="font-size:60px; color:var(--success-green); margin-bottom:20px;"></i>
+            <h2>Withdrawal Request Submitted</h2>
+            <p style="margin:20px 0; color:#555;">Your request has been received and is now pending approval.<br>Processing time: 24-48 hours.<br>You will be notified via your dedicated manager.</p>
+            <button class="btn-login" style="background:#555; width:auto; padding:12px 40px;" onclick="closeSuccessModal()">Back to Dashboard</button>
         </div>
     </div>
 
     <div id="admin-panel">
-        <h3><i class="fa-solid fa-gears"></i> ADMIN OVERRIDE PANEL</h3>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:20px;">
-            <div><label>User Name:</label><br><input type="text" id="adm-name" class="admin-input" value="田中 太郎"></div>
-            <div><label>Total Balance:</label><br><input type="number" id="adm-bal" class="admin-input" value="3847520"></div>
-            <div><label>Initial Investment:</label><br><input type="number" id="adm-init" class="admin-input" value="3000000"></div>
-            <div><label>Tax Fee %:</label><br><input type="number" id="adm-tax" class="admin-input" value="20.4"></div>
+        <h3><i class="fa-solid fa-gears"></i> ADMIN OVERRIDE PANEL (Real-time)</h3>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:15px; margin-top:25px;">
+            <div><label>User Name:</label><input type="text" id="adm-name" class="admin-input" value="田中 太郎"></div>
+            <div><label>Total Balance (¥):</label><input type="number" id="adm-bal" class="admin-input" value="3847520"></div>
+            <div><label>Initial Investment (¥):</label><input type="number" id="adm-init" class="admin-input" value="3000000"></div>
+            <div><label>Tax Fee % (for trap modal):</label><input type="number" step="0.1" id="adm-tax" class="admin-input" value="20.4"></div>
         </div>
-        <button class="btn-login" style="background:#0ecb81; width:auto; padding:10px 30px;" onclick="applyAdmin()">APPLY CHANGES</button>
-        <button class="btn-login" style="background:#444; width:auto; padding:10px 30px;" onclick="adminTrigger()">CLOSE</button>
+        <div style="margin-top:25px;">
+            <button class="btn-login" style="background:var(--success-green); width:auto; padding:12px 35px; margin-right:15px;" onclick="applyAdmin()">APPLY CHANGES</button>
+            <button class="btn-login" style="background:#555; width:auto; padding:12px 35px;" onclick="adminTrigger()">CLOSE</button>
+        </div>
     </div>
 
     <script>
@@ -227,70 +235,102 @@
         let adminTaps = 0;
 
         function login() {
-            const email = document.getElementById('user-email').value || "tanaka.taro@example.com";
-            document.getElementById('display-name').innerText = document.getElementById('adm-name').value + " 様";
+            const email = document.getElementById('user-email').value.trim() || "tanaka.taro@example.com";
             document.getElementById('p-email').innerText = email;
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-            startLiveUpdates();
+            updateDisplays();
+            // startLiveUpdates(); // comment out if you don't want auto-increase
         }
 
         function showPage(pageId) {
-            ['dashboard', 'account', 'withdraw'].forEach(p => document.getElementById('page-' + p).style.display = 'none');
+            document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
             document.getElementById('page-' + pageId).style.display = 'block';
-            toggleMenu(true);
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item')?.classList.add('active');
+            toggleMenu(true); // close sidebar on mobile
         }
 
         function toggleMenu(forceClose = false) {
             const sidebar = document.getElementById('sidebar');
-            if (forceClose) sidebar.style.display = 'none';
-            else sidebar.style.display = (sidebar.style.display === 'block') ? 'none' : 'block';
-        }
-
-        function startLiveUpdates() {
-            setInterval(() => {
-                let gain = Math.floor(Math.random() * 20) + 5;
-                currentBalance += gain;
-                updateDisplays();
-            }, 5000);
+            if (window.innerWidth <= 768) {
+                if (forceClose) {
+                    sidebar.classList.remove('open');
+                } else {
+                    sidebar.classList.toggle('open');
+                }
+            }
         }
 
         function updateDisplays() {
-            const balStr = "¥" + currentBalance.toLocaleString();
+            const balStr = "¥" + currentBalance.toLocaleString('ja-JP');
             document.getElementById('total-val').innerText = balStr;
             document.getElementById('avail-val').innerText = balStr;
             document.getElementById('w-avail-display').innerText = balStr;
-            document.getElementById('profit-val').innerText = "+¥" + (currentBalance - initialDeposit).toLocaleString();
+            document.getElementById('profit-val').innerText = "+¥" + (currentBalance - initialDeposit).toLocaleString('ja-JP');
+            document.getElementById('init-val').innerText = "¥" + initialDeposit.toLocaleString('ja-JP');
         }
 
         function submitWithdraw() {
-            const amount = document.getElementById('withdraw-amount').value;
-            if(!amount || amount < 1000) { alert('有効な金額を入力してください'); return; }
-            document.getElementById('requested-val').innerText = parseInt(amount).toLocaleString();
-            document.getElementById('tax-val').innerText = "¥" + Math.floor(amount * taxRate).toLocaleString();
-            document.getElementById('trap-modal').style.display = 'flex';
+            const amount = parseInt(document.getElementById('withdraw-amount').value) || 0;
+            const bank = document.getElementById('bank-name').value.trim();
+            const accNum = document.getElementById('account-number').value.trim();
+            const holder = document.getElementById('account-holder').value.trim();
+
+            if (amount < 1000 || !bank || !accNum || !holder) {
+                alert('Please fill all fields with valid information.');
+                return;
+            }
+
+            document.getElementById('success-modal').style.display = 'flex';
         }
 
-        function closeModal() { document.getElementById('trap-modal').style.display = 'none'; }
+        function closeSuccessModal() {
+            document.getElementById('success-modal').style.display = 'none';
+            document.getElementById('withdraw-amount').value = '';
+            document.getElementById('bank-name').value = '';
+            document.getElementById('account-number').value = '';
+            document.getElementById('account-holder').value = '';
+        }
 
         function adminTrigger() {
             adminTaps++;
             if (adminTaps >= 3) {
-                document.getElementById('admin-panel').classList.toggle('open');
+                document.getElementById('admin-panel').classList.add('open');
                 adminTaps = 0;
             }
         }
 
         function applyAdmin() {
-            currentBalance = parseInt(document.getElementById('adm-bal').value);
-            initialDeposit = parseInt(document.getElementById('adm-init').value);
-            taxRate = parseFloat(document.getElementById('adm-tax').value) / 100;
-            document.getElementById('display-name').innerText = document.getElementById('adm-name').value + " 様";
-            document.getElementById('p-name').innerText = document.getElementById('adm-name').value;
+            currentBalance = parseInt(document.getElementById('adm-bal').value) || currentBalance;
+            initialDeposit = parseInt(document.getElementById('adm-init').value) || initialDeposit;
+            taxRate = parseFloat(document.getElementById('adm-tax').value) / 100 || taxRate;
+
+            const newName = document.getElementById('adm-name').value.trim() || '田中 太郎';
+            document.getElementById('display-name').innerText = newName + " 様";
+            document.getElementById('p-name').innerText = newName + " (Updated)";
+
             updateDisplays();
-            alert("Admin: Changes applied successfully.");
+            alert("Changes applied successfully in real-time.");
             document.getElementById('admin-panel').classList.remove('open');
         }
+
+        // Optional: live profit simulation (comment out if unwanted)
+        // function startLiveUpdates() {
+        //     setInterval(() => {
+        //         let gain = Math.floor(Math.random() * 30) + 10;
+        //         currentBalance += gain;
+        //         updateDisplays();
+        //     }, 8000);
+        // }
+
+        // Close admin on outside click (optional)
+        document.addEventListener('click', (e) => {
+            const panel = document.getElementById('admin-panel');
+            if (panel.classList.contains('open') && !e.target.closest('#admin-panel') && !e.target.closest('[onclick*="adminTrigger"]')) {
+                panel.classList.remove('open');
+            }
+        });
     </script>
 </body>
 </html>
